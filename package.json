@@ -1,0 +1,17 @@
+{
+  "name": "tapbintang-review",
+  "version": "1.0.0",
+  "private": true,
+  "description": "QR / NFC → Google Review redirect service",
+  "main": "src/functions/createLink.js",
+  "scripts": {
+    "build": "echo \"nothing to build\""
+  },
+  "dependencies": {
+    "qrcode": "^1.5.3",
+    "uuid": "^9.0.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

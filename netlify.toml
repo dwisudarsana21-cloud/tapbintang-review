@@ -1,0 +1,22 @@
+[build]
+  # Karena situs bersifat static, cukup publish folder public/
+  publish = "public"
+
+# ---------- Functions ----------
+[[functions]]
+  directory = "src/functions"
+  node_bundler = "esbuild"
+
+# ---------- KV Namespace ----------
+[[kv_namespaces]]
+  binding = "REVIEW_LINKS"
+  # ID akan dibuat otomatis oleh Netlify (tidak perlu di‑isi)
+
+# ---------- Optional static redirects ----------
+# Jika Anda ingin menambahkan redirect statik manual, gunakan format berikut:
+# [[redirects]]
+#   from = "/review/TEST"
+#   to   = "https://search.google.com/local/writereview?cid=YOUR_PLACE_ID"
+#   status = 302
+
+# ---------- End of file ----------

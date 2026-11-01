@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Buat Link Review NFC/QR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+  <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-2xl mb-4">Buat Link Review untuk Toko Anda</h2>
+
+    <form id="linkForm" class="space-y-4">
+      <input type="text" name="shopName" placeholder="Nama Toko" required class="w-full p-2 border rounded">
+      <input type="tel" name="waNumber" placeholder="Nomor WhatsApp (contoh: 628123456789)" required class="w-full p-2 border rounded">
+      <input type="text" name="address" placeholder="Alamat Toko" required class="w-full p-2 border rounded">
+      <select name="rating" required class="w-full p-2 border rounded">
+        <option value="">Rating yang Anda targetkan (1‑5)</option>
+        <option value="5">5 – Sangat Puas</option>
+        <option value="4">4 – Puas</option>
+        <option value="3">3 – Biasa</option>
+        <option value="2">2 – Kurang</option>
+        <option value="1">1 – Sangat Kurang</option>
+      </select>
+      <textarea name="comment" placeholder="Komentar (opsional)" class="w-full p-2 border rounded"></textarea>
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Buat Link</button>
+    </form>
+
+    <div id="result" class="mt-6 hidden">
+      <p class="font-semibold">URL pendek Anda:</p>
+      <pre id="shortUrl" class="bg-gray-100 p-2 rounded"></pre>
+
+      <p class="font-semibold mt-4">QR code (klik untuk unduh):</p>
+      <a id="downloadLink" download="qr.png"><img id="qrImg" class="border p-2 rounded" /></a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('linkForm');
+    const resultDiv = document.getElementById('result');
+    const shortUrlEl = document.getElementById('shortUrl');
+    const qrImg = document.getElementById('qrImg');
+    const dlLink = document.getElementById('downloadLink');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      const resp = await fetch('/.netlify/functions/createLink', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await resp.json();
+      shortUrlEl.textContent = json.shortUrl;
+      qrImg.src = json.qrDataUrl;
+      dlLink.href = json.qrDataUrl;
+      resultDiv.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
